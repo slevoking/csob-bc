@@ -1,21 +1,15 @@
 {
-  "name": "asisteam/csob-bc",
+  "name": "slevoking/csob-bc",
   "description": "CSOB Business Connector - for download/upload files automation",
   "keywords": ["CSOB", "Business Connector", "API"],
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/AsisTeam/csob-bc",
-  "authors": [
-    {
-      "name": "Tomas Sedlacek",
-      "homepage": "http://kedlas.cz"
-    }
-  ],
   "require": {
     "ext-soap": "*",
     "php": ">= 7.1",
     "nette/di": "^2.4 || ~3.0.0",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^7.*",
     "ext-curl": "*",
     "ext-iconv": "*",
     "moneyphp/money": "^3.2",
