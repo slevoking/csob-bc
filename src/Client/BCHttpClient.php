@@ -41,8 +41,10 @@ class BCHttpClient
 		}
 
 		$resp = $this->send(new Request('GET', $url));
+		$body = $resp->getBody()->getContents();
+		var_dump($body);
 
-		return $resp->getBody()->getContents();
+		return $body;
 	}
 
 	public function upload(IFile $file): IFile
