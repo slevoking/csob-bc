@@ -42,6 +42,7 @@ class BCHttpClient
 
 		$resp = $this->send(new Request('GET', $url));
 		$body = $resp->getBody()->getContents();
+		var_dump($resp->getHeaders());
 		var_dump($body);
 
 		return $body;
