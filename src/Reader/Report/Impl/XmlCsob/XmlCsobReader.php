@@ -19,7 +19,6 @@ final class XmlCsobReader implements IReportReader
 	{
 		try {
 			libxml_use_internal_errors(true);
-			var_dump($file->getContent());
 			$xml = new SimpleXMLElement($file->getContent());
 			return Report::fromXml($xml);
 		} catch (Throwable $e) {
