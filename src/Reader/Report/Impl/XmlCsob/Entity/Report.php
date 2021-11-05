@@ -67,6 +67,7 @@ final class Report implements IReport
 		}
 
 		$currency            = (string) $xml->FINSTA03->S60_MENA;
+		var_dump((string) $xml->FINSTA03->S60_CASTKA);
 		$report->amountStart = XmlCsobReader::createMoney((string) $xml->FINSTA03->S60_CASTKA, $currency);
 		$report->amountEnd = XmlCsobReader::createMoney((string) $xml->FINSTA03->S62_CASTKA, $currency);
 
