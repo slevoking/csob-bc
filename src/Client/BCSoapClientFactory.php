@@ -23,7 +23,6 @@ final class BCSoapClientFactory
 				'exceptions'   => true,
 				'local_cert'   => $options->getCertPath(),
 				'passphrase'   => $options->getCertPassphrase(),
-				'ssl_method'   => SOAP_SSL_METHOD_SSLv3,
 			]
 		);
 
