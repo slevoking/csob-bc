@@ -86,8 +86,7 @@ class BCHttpClient
 	private function configureRequestOpts(): array
 	{
 		return [
-			'verify' => false,
-			'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2, CURLOPT_SSL_VERIFYPEER => true],
+			'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2],
 			'cert' => [$this->options->getCertPath(), $this->options->getCertPassphrase()],
 		];
 	}
