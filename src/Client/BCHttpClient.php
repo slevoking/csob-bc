@@ -87,7 +87,7 @@ class BCHttpClient
 	{
 		return [
 			'verify' => false,
-			'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2],
+			'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2, CURLOPT_SSL_VERIFYPEER => true],
 			'cert' => [$this->options->getCertPath(), $this->options->getCertPassphrase()],
 		];
 	}
