@@ -83,9 +83,9 @@ final class ForeignPayment implements IPaymentOrder
 
 	public function setOriginatorAccountNumber(string $originatorAccountNumber): self
 	{
-		if (strlen($originatorAccountNumber) > 24) {
-			throw new InvalidArgumentException('Originator bank account must not contain more then 24 digits');
-		}
+		//if (strlen($originatorAccountNumber) > 24) {
+		//	throw new InvalidArgumentException('Originator bank account must not contain more then 24 digits');
+		//}
 
 		$this->originatorAccountNumber = trim($originatorAccountNumber);
 
