@@ -125,9 +125,9 @@ final class InlandPayment implements IPaymentOrder
 			throw new LogicalException('Payment amount must be positive number');
 		}
 
-		if ($amount->getCurrency()->getCode() !== 'CZK') {
-			throw new LogicalException('Only amounts with CZK currency are allowed for inland payments.');
-		}
+		//if ($amount->getCurrency()->getCode() !== 'CZK') {
+		//	throw new LogicalException('Only amounts with CZK currency are allowed for inland payments.');
+		//}
 
 		$this->amount = $amount;
 
