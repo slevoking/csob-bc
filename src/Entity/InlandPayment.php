@@ -153,9 +153,9 @@ final class InlandPayment implements IPaymentOrder
 
 	public function setCounterpartyBankCode(string $counterpartyBankCode): self
 	{
-		if (strlen($counterpartyBankCode) !== 4) {
-			throw new InvalidArgumentException('Counterparty bank code must consist of 4 digits');
-		}
+		//if (strlen($counterpartyBankCode) !== 4) {
+		//	throw new InvalidArgumentException('Counterparty bank code must consist of 4 digits');
+		//}
 
 		$this->counterpartyBankCode = $counterpartyBankCode;
 
