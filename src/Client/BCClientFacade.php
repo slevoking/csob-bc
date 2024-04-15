@@ -34,7 +34,7 @@ final class BCClientFacade
 	/**
 	 * @param IFile[] $files
 	 */
-	public function upload(array $files): void
+	public function upload(array $files)
 	{
 		// register files for uploading
 		$up = $this->soapClient->startUpload($files);
@@ -46,7 +46,7 @@ final class BCClientFacade
 		}
 
 		// confirm all files were uploaded and start processing them
-		$this->soapClient->finishUpload($files);
+		return $this->soapClient->finishUpload($files);
 	}
 
 }
