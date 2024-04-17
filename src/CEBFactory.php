@@ -8,6 +8,7 @@ use AsisTeam\CSOBBC\Client\BCSoapClientFactory;
 use AsisTeam\CSOBBC\Client\Options;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Generator\FileGenerator;
+use AsisTeam\CSOBBC\Generator\Payment\Impl\Mt101Generator;
 use AsisTeam\CSOBBC\Generator\Payment\Impl\TxtGenerator;
 use AsisTeam\CSOBBC\Generator\Payment\IPaymentFileGenerator;
 use AsisTeam\CSOBBC\Reader\Advice\IAdviceReader;
@@ -43,6 +44,7 @@ class CEBFactory
 		$reader = new FileReader($this->getReportReader(), $this->getAdviceReader(), $this->getImportProtocolReader());
 		$generator = new FileGenerator();
 		$generator->addGenerator(FileFormatEnum::TXT_TPS, $this->getPaymentOrderGenerator());
+		$generator->addGenerator(FileFormatEnum::MT101, new Mt101Generator($this->tmpDir, true));
 
 		return new CEB($clientFacade, $reader, $generator);
 	}
