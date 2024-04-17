@@ -54,7 +54,7 @@ class Mt101Generator implements IPaymentFileGenerator
 		$content[] = ':52A:CEKOCZBX';
 		$content[] = ':30:' . (new DateTimeImmutable('now'))->format('Ymd');
 		$content[] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
-		$content[] = ':23E:';
+		$content[] = ':23E:URGP';
 		$content[] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
 		$content[] = ':57A:CEKOCZPPXXX';
 		$content[] = ':59A:' . $payment['receiver_account_number'];
