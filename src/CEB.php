@@ -8,6 +8,7 @@ use AsisTeam\CSOBBC\Entity\IFile;
 use AsisTeam\CSOBBC\Entity\ImportProtocol\IImportProtocol;
 use AsisTeam\CSOBBC\Entity\IPaymentOrder;
 use AsisTeam\CSOBBC\Entity\Report\IReport;
+use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Exception\Runtime\ReaderException;
 use AsisTeam\CSOBBC\Generator\FileGenerator;
 use AsisTeam\CSOBBC\Reader\FileReader;
@@ -37,12 +38,9 @@ final class CEB
 		$this->generator = $generator;
 	}
 
-	/**
-	 * @param IPaymentOrder[] $payments
-	 */
-	public function generatePaymentFile(array $payments): IFile
+	public function generatePaymentFile(array $payments, ?string $format = FileFormatEnum::TXT_ZPS): IFile
 	{
-		return $this->generator->generatePaymentFile($payments);
+		return $this->generator->generatePaymentFile($payments, $format);
 	}
 
 	/**
