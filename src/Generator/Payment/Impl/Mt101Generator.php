@@ -48,17 +48,18 @@ class Mt101Generator implements IPaymentFileGenerator
 	{
 		$content = [];
 
-		$content[0] = '{1:F01CEKOCZPPX0000000000}{2:I101CEKOSKBXXN}{3:{113:XXXX}}{4:';
-		$content[1] = ':20:' . (new DateTimeImmutable('now'))->format('Ymd') . '00009828';
-		$content[2] = ':50H:' . $payment['sender_account_number'];
-		$content[3] = ':52A:CEKOSKBX';
-		$content[4] = ':30:' . (new DateTimeImmutable('now'))->format('Ymd');
-		$content[5] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
-		$content[6] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
-		$content[7] = ':57A:CEKOCZPPXXX';
-		$content[8] = ':59:' . $payment['receiver_account_number'];
-		$content[9] = ':70:' . $payment['note'];
-		$content[10] = ':70:SHA';
+		$content[] = '{1:F01CEKOCZPPX0000000000}{2:I101CEKOSKBXXN}{3:{113:XXXX}}{4:';
+		$content[] = ':20:' . (new DateTimeImmutable('now'))->format('Ymd') . '00009828';
+		$content[] = ':50H:' . $payment['sender_account_number'];
+		$content[] = ':52A:CEKOCZBX';
+		$content[] = ':30:' . (new DateTimeImmutable('now'))->format('Ymd');
+		$content[] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
+		$content[] = ':23E:';
+		$content[] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
+		$content[] = ':57A:CEKOCZPPXXX';
+		$content[] = ':59A:' . $payment['receiver_account_number'];
+		$content[] = ':70:' . $payment['note'];
+		$content[] = ':71A:SHA';
 
 		return implode(self::SEPARATOR, $content);
 	}
