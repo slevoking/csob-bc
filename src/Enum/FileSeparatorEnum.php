@@ -12,7 +12,8 @@ final class FileSeparatorEnum
 			$sep === ':' ||
 			$sep === '::' ||
 			$sep === ';' ||
-			$sep === ';;';
+			$sep === ';;' ||
+			$sep === PHP_EOL;
 	}
 
 }
