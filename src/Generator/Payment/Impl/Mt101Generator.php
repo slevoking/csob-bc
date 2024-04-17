@@ -6,6 +6,7 @@ use AsisTeam\CSOBBC\Entity\File;
 use AsisTeam\CSOBBC\Entity\IFile;
 use AsisTeam\CSOBBC\Entity\IPaymentOrder;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
+use AsisTeam\CSOBBC\Enum\UploadModeEnum;
 use AsisTeam\CSOBBC\Exception\Runtime\GeneratorException;
 use AsisTeam\CSOBBC\Generator\Payment\IPaymentFileGenerator;
 use DateTimeImmutable;
@@ -36,6 +37,9 @@ class Mt101Generator implements IPaymentFileGenerator
 
 		$file = $this->createFile($content);
 		$file->setFormat(FileFormatEnum::MT101);
+
+		$file->setSeparator(self::SEPARATOR);
+		$file->setUploadMode(UploadModeEnum::ONLY_CORRECT);
 
 		return $file;
 	}
