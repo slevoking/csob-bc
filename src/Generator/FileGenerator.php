@@ -66,6 +66,7 @@ class FileGenerator
 		if ($foreign === $total) {
 			return IPaymentFileGenerator::TYPE_FOREIGN;
 		}
+		return 'whatever'; // for added mt101, we don't need this anyway
 
 		throw new LogicalException('Unknown payment types detected');
 	}
