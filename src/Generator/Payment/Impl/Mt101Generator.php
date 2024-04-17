@@ -48,10 +48,14 @@ class Mt101Generator implements IPaymentFileGenerator
 	{
 		$content = [];
 
-		$content[] = '{1:F01CEKOCZPPX0000000000}{2:I101CEKOSKBXXN}{3:{113:XXXX}}{4:';
+		$content[] = '{1:F01CEKOCZPPAXXX2648380639}{2:O9421031240415OKHBHUHBAXXX19812655502404151031N}{4:';
 		$content[] = ':20:' . (new DateTimeImmutable('now'))->format('Ymd') . '00009828';
 		$content[] = ':50H:' . $payment['sender_account_number'];
-		$content[] = ':52A:CEKOCZBX';
+		$content[] = 'TPF group s.r.o.';
+		$content[] = 'Dvorakova 44/14';
+		$content[] = 'Brno';
+		$content[] = 'CZ';
+ 		$content[] = ':52A:CEKOCZBX';
 		$content[] = ':30:' . (new DateTimeImmutable('now'))->format('Ymd');
 		$content[] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
 		$content[] = ':23E:URGP';
