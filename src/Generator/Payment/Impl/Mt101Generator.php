@@ -57,7 +57,7 @@ class Mt101Generator implements IPaymentFileGenerator
 		$content[] = ':23E:URGP';
 		$content[] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
 		$content[] = ':57A:CEKOCZPPXXX';
-		$content[] = ':59A:' . $payment['receiver_account_number'];
+		$content[] = ':59:/' . $payment['receiver_account_number'];
 		$content[] = ':70:' . $payment['note'];
 		$content[] = ':71A:SHA';
 
