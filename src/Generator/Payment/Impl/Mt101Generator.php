@@ -60,7 +60,9 @@ class Mt101Generator implements IPaymentFileGenerator
 		$content[] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
 		//$content[] = ':23E:URGP';
 		$content[] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
-		$content[] = ':57A:' . $payment['receiver_swift'];
+		if ($payment['receiver_swift']) {
+			$content[] = ':57A:' . $payment['receiver_swift'];
+		}
 		$content[] = ':59:/' . $payment['receiver_account_number'];
 		$content[] = $payment['receiver_name'];
 		$content[] = $payment['receiver_address'];
