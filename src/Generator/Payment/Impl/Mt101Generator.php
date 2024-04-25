@@ -83,7 +83,7 @@ class Mt101Generator implements IPaymentFileGenerator
 			substr(md5($content), 0, 6)
 		);
 
-		$bytes = file_put_contents($file, iconv('UTF-8', 'Windows-1250', $content));
+		$bytes = file_put_contents($file, mb_convert_encoding($content, 'ISO-8859-2', 'UTF-8'));
 		if ($bytes === false) {
 			throw new GeneratorException(sprintf('MT101Generator unable to create tmp file "%s"', $file));
 		}
