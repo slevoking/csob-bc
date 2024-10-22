@@ -29,6 +29,8 @@ final class AdvisedForeignPayment implements IForeignPayment
 	/** @var float */
 	private $exRate = 1;
 
+	private $lines;
+
 	/** @var string */
 	private $counterparty = '';
 
@@ -79,6 +81,7 @@ final class AdvisedForeignPayment implements IForeignPayment
 			LineFinder::get($lines, self::SWIFT),
 			LineFinder::get($lines, self::COUNTERPARTY)
 		);
+		$p->lines = $lines;
 
 		$p->bookType = LineFinder::get($lines, self::BOOK_TYPE);
 		$p->exRate = floatval(LineFinder::get($lines, self::EX_RATE));
@@ -181,6 +184,11 @@ final class AdvisedForeignPayment implements IForeignPayment
 	public function getVariableSymbol(): ?string
 	{
 		return $this->variableSymbol;
+	}
+
+	public function getLines(): array
+	{
+		return $this->lines;
 	}
 
 }
