@@ -24,6 +24,7 @@ final class AdvisedForeignPayment implements IForeignPayment
 	private const ADDRESS_1           = '?32';
 	private const ADDRESS_2           = '?33';
 	private const LOCAL_CHARGE        = '//CHGS/';
+	private const VS                  = '?VS/';
 
 	/** @var float */
 	private $exRate = 1;
@@ -51,6 +52,8 @@ final class AdvisedForeignPayment implements IForeignPayment
 
 	/** @var Money */
 	private $localCharge;
+
+	private $variableSymbol = null;
 
 	public function __construct(
 		string $iban,
@@ -105,6 +108,7 @@ final class AdvisedForeignPayment implements IForeignPayment
 				$lCh[0] ?? '',
 			]
 		);
+		$p->variableSymbol = LineFinder::get($lines, self::VS);
 
 		$cpCh = LineFinder::find($lines, self::COUNTERPARTY_CHARGE);
 		if ($cpCh !== null) {
@@ -172,6 +176,11 @@ final class AdvisedForeignPayment implements IForeignPayment
 	public function getCounterpartyAddress(): string
 	{
 		return $this->counterpartyAddress;
+	}
+
+	public function getVariableSymbol(): ?string
+	{
+		return $this->variableSymbol;
 	}
 
 }
