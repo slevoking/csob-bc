@@ -278,7 +278,7 @@ final class File implements IFile
 			throw new LogicalException(sprintf('Creating File instance for non-existing file: %s', $location));
 		}
 
-		$this->hash = hash_file('md5', $location);
+		$this->hash = hash_file('sha256', $location);
 
 		$size = filesize($location);
 		if ($size === false) {
