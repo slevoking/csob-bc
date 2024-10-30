@@ -9,6 +9,7 @@ use AsisTeam\CSOBBC\Client\Options;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Generator\FileGenerator;
 use AsisTeam\CSOBBC\Generator\Payment\Impl\Mt101Generator;
+use AsisTeam\CSOBBC\Generator\Payment\Impl\SepaXmlGenerator;
 use AsisTeam\CSOBBC\Generator\Payment\Impl\TxtGenerator;
 use AsisTeam\CSOBBC\Generator\Payment\IPaymentFileGenerator;
 use AsisTeam\CSOBBC\Reader\Advice\IAdviceReader;
@@ -45,6 +46,7 @@ class CEBFactory
 		$generator = new FileGenerator();
 		$generator->addGenerator(FileFormatEnum::TXT_TPS, $this->getPaymentOrderGenerator());
 		$generator->addGenerator(FileFormatEnum::MT101, new Mt101Generator($this->tmpDir, true));
+		$generator->addGenerator(FileFormatEnum::SEPA_XML, new SepaXmlGenerator($this->tmpDir, true));
 
 		return new CEB($clientFacade, $reader, $generator);
 	}
