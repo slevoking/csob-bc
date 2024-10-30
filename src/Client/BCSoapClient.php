@@ -202,6 +202,7 @@ class BCSoapClient
 
 	private function throwSoapError(SoapFault $e): void
 	{
+		// could be $this->client->__getLastRequest() for inspecting what we sent
 		throw new RequestException(
 			sprintf('SOAP Fault %s. Request: %s', $e->getMessage(), $this->client->__getLastResponse()),
 			0,
