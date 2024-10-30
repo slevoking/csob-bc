@@ -58,7 +58,7 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 			substr(md5($content), 0, 6)
 		);
 
-		$bytes = file_put_contents($file, $content);
+		$bytes = file_put_contents($file, mb_convert_encoding($content, 'ISO-8859-2', 'UTF-8'));
 		if ($bytes === false) {
 			throw new GeneratorException(sprintf('SepaXMLGenerator unable to create tmp file "%s"', $file));
 		}
