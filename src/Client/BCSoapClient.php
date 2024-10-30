@@ -147,8 +147,6 @@ class BCSoapClient
 			$opts['FileList']['ImportFileDetail'][] = $this->fileToArray($f);
 		}
 
-		var_dump($opts);
-
 		return $opts;
 	}
 
