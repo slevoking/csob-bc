@@ -32,7 +32,6 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 		$content = $payments[0];
 
 		$file = $this->createFile($content, $filename);
-		var_dump($file->getContent());
 		$file->setFormat(FileFormatEnum::SEPA_XML);
 		$file->setSeparator(self::SEPARATOR);
 		$file->setUploadMode(UploadModeEnum::ONLY_CORRECT);
