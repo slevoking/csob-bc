@@ -16,7 +16,7 @@ final class FileFormatEnum
 	public const XLSX_TPS = 'XLSX TPS';
 	public const XLSX_ZPS = 'XLSX ZPS';
 	public const MT101    = 'MT101';
-	public const SEPA_XML = 'SEPA_XML';
+	public const SEPA_XML = 'SEPAXML';
 
 	public static function isValid(string $value): bool
 	{
