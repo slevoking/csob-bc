@@ -7,7 +7,6 @@ use AsisTeam\CSOBBC\Entity\ForeignPayment;
 use AsisTeam\CSOBBC\Entity\IFile;
 use AsisTeam\CSOBBC\Entity\InlandPayment;
 use AsisTeam\CSOBBC\Entity\IPaymentOrder;
-use AsisTeam\CSOBBC\Entity\SepaPayment;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Enum\UploadModeEnum;
 use AsisTeam\CSOBBC\Exception\Runtime\GeneratorException;
@@ -45,14 +44,13 @@ final class TxtGenerator implements IPaymentFileGenerator
 		if ($type === IPaymentFileGenerator::TYPE_FOREIGN) {
 			/** @var ForeignPayment[] $payments */
 			$content = $this->generateForeignContent($payments);
-		} elseif ($type === IPaymentFileGenerator::TYPE_SEPA) {
-			$content = $this->generateSepaContent($payments);
+			$file = $this->createFile($content, $filename);
+			$file->setFormat(FileFormatEnum::TXT_ZPS);
 		} else {
 			$content = $this->generateInlandContent($payments);
+			$file = $this->createFile($content, $filename);
+			$file->setFormat(FileFormatEnum::TXT_TPS);
 		}
-
-		$file = $this->createFile($content, $filename);
-		$file->setFormat(FileFormatEnum::TXT_ZPS);
 
 		$file->setSeparator(self::SEPARATOR);
 		$file->setUploadMode(UploadModeEnum::ONLY_CORRECT);
@@ -157,19 +155,6 @@ final class TxtGenerator implements IPaymentFileGenerator
 		return $content;
 	}
 
-	/**
-	 * @param SepaPayment[] $payments
-	 */
-	private function generateSepaContent(array $payments): string
-	{
-		$content = '';
-		foreach ($payments as $payment) {
-			$content .= $this->generateSepaLine($payment) . PHP_EOL;
-		}
-
-		return $content;
-	}
-
 	private function generateForeignLine(ForeignPayment $p): string
 	{
 		$conBank = str_replace(self::SEPARATOR, ' ', (string) $p->getCounterpartyBankIdentification());
@@ -217,39 +202,4 @@ final class TxtGenerator implements IPaymentFileGenerator
 		return implode(self::SEPARATOR, $fields);
 	}
 
-	private function generateSepaLine(SepaPayment $p): string
-	{
-		$purpose = str_replace(self::SEPARATOR, ' ', $p->getPurpose());
-
-		$fields = [
-			'SEPA payment',
-			$p->getPaymentDay(),
-			'',
-			$p->getOriginatorAccountNumber(),
-			$p->getOriginatorReference(),
-			'Travelking',
-			$p->getCounterpartyName(),
-			'',
-			'',
-			$p->getCounterpartyIban(),
-			$this->moneyFormatter->format($p->getAmount()),
-			'EUR',
-			(string) substr($purpose, 0, 35),
-			(string) substr($purpose, 35, 35),
-			(string) substr($purpose, 70, 35),
-			(string) substr($purpose, 105, 35),
-			0,
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-		];
-
-		return implode(self::SEPARATOR, $fields);
-	}
 }
