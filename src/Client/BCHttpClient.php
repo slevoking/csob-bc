@@ -65,7 +65,7 @@ class BCHttpClient
 		];
 
 		$resp = $this->send(new Request('POST', $file->getUploadUrl(), $hdrs, $file->getContent()));
-		var_dump($resp);
+		var_dump($resp->getBody()->getContents());
 		$data = $this->extractJsonContents($resp, [200, 201]);
 
 		if (!isset($data['newfileid'])) {
