@@ -29,14 +29,10 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 
 	public function generate(array $payments, ?string $filename, string $type): IFile
 	{
-		$content = '';
-		foreach ($payments as $payment) {
-			$content .= $payment . self::SEPARATOR;
-		}
+		$content = $payments[0];
 
 		$file = $this->createFile($content, $filename);
 		$file->setFormat(FileFormatEnum::SEPA_XML);
-
 		$file->setSeparator(self::SEPARATOR);
 		$file->setUploadMode(UploadModeEnum::ONLY_CORRECT);
 
