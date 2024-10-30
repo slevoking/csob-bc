@@ -222,6 +222,7 @@ final class TxtGenerator implements IPaymentFileGenerator
 		$purpose = str_replace(self::SEPARATOR, ' ', $p->getPurpose());
 
 		$fields = [
+			'SEPA payment',
 			$p->getPaymentDay(),
 			'',
 			$p->getOriginatorAccountNumber(),
