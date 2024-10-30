@@ -27,7 +27,7 @@ class Mt101Generator implements IPaymentFileGenerator
 		$this->keepTmp = $keepTmp;
 	}
 
-	public function generate(array $payments, string $type): IFile
+	public function generate(array $payments, ?string $filename, string $type): IFile
 	{
 		$content = '';
 		foreach ($payments as $payment) {

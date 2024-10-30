@@ -53,6 +53,9 @@ final class InlandPayment implements IPaymentOrder
 	/** @var string|null */
 	private $counterpartyName;
 
+	/** @var string|null */
+	private $name = null;
+
 	public function __construct(
 		string $type,
 		string $originatorAccountNumber,
@@ -268,6 +271,17 @@ final class InlandPayment implements IPaymentOrder
 		$this->originatorMessage = $originatorMessage;
 
 		return $this;
+	}
+
+	public function setName(string $name): self
+	{
+		$this->name = $name;
+		return $this;
+	}
+
+	public function getName(): ?string
+	{
+		return $this->name;
 	}
 
 }

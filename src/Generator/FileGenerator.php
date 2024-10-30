@@ -6,6 +6,7 @@ use AsisTeam\CSOBBC\Entity\ForeignPayment;
 use AsisTeam\CSOBBC\Entity\IFile;
 use AsisTeam\CSOBBC\Entity\InlandPayment;
 use AsisTeam\CSOBBC\Entity\IPaymentOrder;
+use AsisTeam\CSOBBC\Entity\SepaPayment;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Exception\LogicalException;
 use AsisTeam\CSOBBC\Generator\Payment\IPaymentFileGenerator;
@@ -24,13 +25,13 @@ class FileGenerator
 	/**
 	 * @param IPaymentOrder[] $payments
 	 */
-	public function generatePaymentFile(array $payments, ?string $format = FileFormatEnum::TXT_TPS): IFile
+	public function generatePaymentFile(array $payments, ?string $filename = null, ?string $format = FileFormatEnum::TXT_TPS): IFile
 	{
 		if (!isset($this->generators[$format])) {
 			throw new LogicalException(sprintf('No generator registered for format "%s"', $format));
 		}
 
-		return $this->generators[$format]->generate($payments, $this->detectType($payments));
+		return $this->generators[$format]->generate($payments, $filename, $this->detectType($payments));
 	}
 
 	/**
@@ -41,6 +42,7 @@ class FileGenerator
 		$total   = count($payments);
 		$inland  = 0;
 		$foreign = 0;
+		$sepa    = 0;
 
 		if ($total === 0) {
 			throw new LogicalException('No payment orders given to generate file from');
@@ -52,6 +54,9 @@ class FileGenerator
 			}
 			if ($p instanceof ForeignPayment) {
 				$foreign++;
+			}
+			if ($p instanceof SepaPayment) {
+				$sepa++;
 			}
 		}
 
@@ -65,6 +70,9 @@ class FileGenerator
 
 		if ($foreign === $total) {
 			return IPaymentFileGenerator::TYPE_FOREIGN;
+		}
+		if ($sepa === $total) {
+			return IPaymentFileGenerator::TYPE_SEPA;
 		}
 		return 'whatever'; // for added mt101, we don't need this anyway
 

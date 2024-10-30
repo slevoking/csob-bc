@@ -47,6 +47,9 @@ final class ForeignPayment implements IPaymentOrder
 	/** @var string */
 	private $bankInstructions;
 
+	/** @var string|null */
+	private $name;
+
 	public function __construct(
 		string $originatorAccountNumber,
 		Money $amount,
@@ -243,6 +246,17 @@ final class ForeignPayment implements IPaymentOrder
 		$this->counterpartyCountry = $iso;
 
 		return $this;
+	}
+
+	public function setName(string $name): self
+	{
+		$this->name = $name;
+		return $this;
+	}
+
+	public function getName(): ?string
+	{
+		return $this->name;
 	}
 
 }

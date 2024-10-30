@@ -38,9 +38,9 @@ final class CEB
 		$this->generator = $generator;
 	}
 
-	public function generatePaymentFile(array $payments, ?string $format = FileFormatEnum::TXT_ZPS): IFile
+	public function generatePaymentFile(array $payments, ?string $filename = null, ?string $format = FileFormatEnum::TXT_ZPS): IFile
 	{
-		return $this->generator->generatePaymentFile($payments, $format);
+		return $this->generator->generatePaymentFile($payments, $filename, $format);
 	}
 
 	/**

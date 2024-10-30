@@ -7,6 +7,7 @@ use AsisTeam\CSOBBC\Entity\ForeignPayment;
 use AsisTeam\CSOBBC\Entity\IFile;
 use AsisTeam\CSOBBC\Entity\InlandPayment;
 use AsisTeam\CSOBBC\Entity\IPaymentOrder;
+use AsisTeam\CSOBBC\Entity\SepaPayment;
 use AsisTeam\CSOBBC\Enum\FileFormatEnum;
 use AsisTeam\CSOBBC\Enum\UploadModeEnum;
 use AsisTeam\CSOBBC\Exception\Runtime\GeneratorException;
@@ -39,18 +40,19 @@ final class TxtGenerator implements IPaymentFileGenerator
 	/**
 	 * @param IPaymentOrder[] $payments
 	 */
-	public function generate(array $payments, string $type): IFile
+	public function generate(array $payments, ?string $filename, string $type): IFile
 	{
 		if ($type === IPaymentFileGenerator::TYPE_FOREIGN) {
 			/** @var ForeignPayment[] $payments */
 			$content = $this->generateForeignContent($payments);
-			$file = $this->createFile($content);
-			$file->setFormat(FileFormatEnum::TXT_ZPS);
+		} elseif ($type === IPaymentFileGenerator::TYPE_SEPA) {
+			$content = $this->generateSepaContent($payments);
 		} else {
 			$content = $this->generateInlandContent($payments);
-			$file = $this->createFile($content);
-			$file->setFormat(FileFormatEnum::TXT_TPS);
 		}
+
+		$file = $this->createFile($content, $filename);
+		$file->setFormat(FileFormatEnum::TXT_ZPS);
 
 		$file->setSeparator(self::SEPARATOR);
 		$file->setUploadMode(UploadModeEnum::ONLY_CORRECT);
@@ -78,10 +80,15 @@ final class TxtGenerator implements IPaymentFileGenerator
 		return $file;
 	}
 
-	private function createFile(string $content): File
+	private function createFile(string $content, ?string $filename): File
 	{
+		$baseName = 'payments-batch';
+		if ($filename) {
+			$baseName = $filename;
+		}
+
 		$file = sprintf(
-			'%s/payments-batch-%s-%s',
+			'%s/' . $baseName . '-%s-%s',
 			$this->tmpDir,
 			(new DateTimeImmutable())->format('YmdHis'),
 			substr(md5($content), 0, 6)
@@ -150,6 +157,19 @@ final class TxtGenerator implements IPaymentFileGenerator
 		return $content;
 	}
 
+	/**
+	 * @param SepaPayment[] $payments
+	 */
+	private function generateSepaContent(array $payments): string
+	{
+		$content = '';
+		foreach ($payments as $payment) {
+			$content .= $this->generateSepaLine($payment) . PHP_EOL;
+		}
+
+		return $content;
+	}
+
 	private function generateForeignLine(ForeignPayment $p): string
 	{
 		$conBank = str_replace(self::SEPARATOR, ' ', (string) $p->getCounterpartyBankIdentification());
@@ -197,4 +217,38 @@ final class TxtGenerator implements IPaymentFileGenerator
 		return implode(self::SEPARATOR, $fields);
 	}
 
+	private function generateSepaLine(SepaPayment $p): string
+	{
+		$purpose = str_replace(self::SEPARATOR, ' ', $p->getPurpose());
+
+		$fields = [
+			$p->getPaymentDay(),
+			'',
+			$p->getOriginatorAccountNumber(),
+			$p->getOriginatorReference(),
+			'Travelking',
+			$p->getCounterpartyName(),
+			'',
+			'',
+			$p->getCounterpartyIban(),
+			$this->moneyFormatter->format($p->getAmount()),
+			'EUR',
+			(string) substr($purpose, 0, 35),
+			(string) substr($purpose, 35, 35),
+			(string) substr($purpose, 70, 35),
+			(string) substr($purpose, 105, 35),
+			0,
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+		];
+
+		return implode(self::SEPARATOR, $fields);
+	}
 }

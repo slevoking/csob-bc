@@ -10,10 +10,11 @@ interface IPaymentFileGenerator
 
 	public const TYPE_INLAND = 'inland';
 	public const TYPE_FOREIGN = 'foreign';
+	public const TYPE_SEPA = 'sepa';
 
 	/**
 	 * @param IPaymentOrder[] $payments
 	 */
-	public function generate(array $payments, string $type): IFile;
+	public function generate(array $payments, ?string $filename, string $type): IFile;
 
 }
