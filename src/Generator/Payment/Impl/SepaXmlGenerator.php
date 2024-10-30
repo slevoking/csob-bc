@@ -49,7 +49,7 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 		}
 
 		$file = sprintf(
-			'%s/' . $baseName .'-%s-%s',
+			'%s/' . $baseName .'-%s-%s.xml',
 			$this->tmpDir,
 			(new DateTimeImmutable())->format('YmdHis'),
 			substr(md5($content), 0, 6)
