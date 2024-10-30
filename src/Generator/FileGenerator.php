@@ -24,13 +24,13 @@ class FileGenerator
 	/**
 	 * @param IPaymentOrder[] $payments
 	 */
-	public function generatePaymentFile(array $payments, ?string $format = FileFormatEnum::TXT_TPS): IFile
+	public function generatePaymentFile(array $payments, ?string $filename, ?string $format = FileFormatEnum::TXT_TPS): IFile
 	{
 		if (!isset($this->generators[$format])) {
 			throw new LogicalException(sprintf('No generator registered for format "%s"', $format));
 		}
 
-		return $this->generators[$format]->generate($payments, $this->detectType($payments));
+		return $this->generators[$format]->generate($payments, $filename, $this->detectType($payments));
 	}
 
 	/**
