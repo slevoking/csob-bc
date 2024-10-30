@@ -31,7 +31,7 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 	{
 		$content = '';
 		foreach ($payments as $payment) {
-			$content .= $this->generatePaymentContent($payment) . self::SEPARATOR;
+			$content .= $payment . self::SEPARATOR;
 		}
 
 		$file = $this->createFile($content, $filename);
