@@ -202,15 +202,8 @@ class BCSoapClient
 
 	private function throwSoapError(SoapFault $e): void
 	{
-
-		var_dump($e->getCode());
-		var_dump($e->getMessage());
-		var_dump($e->getPrevious());
-		var_dump($e->getTrace());
-		var_dump($e->getTraceAsString());
-
 		throw new RequestException(
-			sprintf('SOAP Fault %s. Request: %s', $e->getMessage(), $this->client->__getLastRequest()),
+			sprintf('SOAP Fault %s. Request: %s', $e->getMessage(), $this->client->__getLastResponse()),
 			0,
 			$e
 		);
