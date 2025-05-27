@@ -50,7 +50,7 @@ class SepaXmlGenerator implements IPaymentFileGenerator
 			'%s/' . $baseName .'-%s-%s.xml',
 			$this->tmpDir,
 			(new DateTimeImmutable())->format('YmdHis'),
-			substr(md5($content), 0, 6)
+			substr(hash('sha256', $content), 0, 6)
 		);
 
 		$bytes = file_put_contents($file, $content);

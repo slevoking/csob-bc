@@ -60,7 +60,7 @@ class BCHttpClient
 
 		$hdrs = [
 			'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
-			'Content-Type' => 'application/octet-stream',
+			'Content-Type' => 'multipart/form-data; boundary=' . substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6),
 			'Content-Length' => $file->getSize(),
 		];
 

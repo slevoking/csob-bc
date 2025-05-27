@@ -56,7 +56,7 @@ class BCSoapClient
 	{
 		try {
 			$opts = $this->prepareStartUploadOpts($files);
-			$resp = $this->client->StartUploadFileList_v1($opts);
+			$resp = $this->client->StartUploadFileList_v3($opts);
 
 			return StartUploadFileListResponse::fromResponse($resp, $files);
 		} catch (SoapFault $e) {
@@ -71,7 +71,7 @@ class BCSoapClient
 	{
 		try {
 			$opts = $this->prepareFinishUploadOpts($files);
-			$resp = $this->client->FinishUploadFileList_v1($opts);
+			$resp = $this->client->FinishUploadFileList_v2($opts);
 
 			return FinishUploadFileListResponse::fromResponse($resp);
 		} catch (SoapFault $e) {

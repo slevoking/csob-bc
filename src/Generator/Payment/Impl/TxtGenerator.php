@@ -89,7 +89,7 @@ final class TxtGenerator implements IPaymentFileGenerator
 			'%s/' . $baseName . '-%s-%s',
 			$this->tmpDir,
 			(new DateTimeImmutable())->format('YmdHis'),
-			substr(md5($content), 0, 6)
+			substr(hash('sha256', $content), 0, 6)
 		);
 
 		$bytes = file_put_contents($file, iconv('UTF-8', 'Windows-1250', $content));

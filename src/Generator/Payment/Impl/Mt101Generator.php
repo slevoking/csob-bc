@@ -57,7 +57,7 @@ class Mt101Generator implements IPaymentFileGenerator
 		$content[] = 'CZ';
  		$content[] = ':52A:OKHBHUHB';
 		$content[] = ':30:' . (new DateTimeImmutable('now'))->format('Ymd');
-		$content[] = ':21:' . substr(md5($payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
+		$content[] = ':21:' . substr(hash('sha256', $payment['sender_account_number'] . $payment['receiver_account_number']), 0, 16);
 		//$content[] = ':23E:URGP';
 		$content[] = ':32B:' . strtoupper($payment['currency']) . str_replace('.', ',', $payment['amount']);
 		if ($payment['receiver_swift']) {
@@ -80,7 +80,7 @@ class Mt101Generator implements IPaymentFileGenerator
 			'%s/payments-batch-%s-%s',
 			$this->tmpDir,
 			(new DateTimeImmutable())->format('YmdHis'),
-			substr(md5($content), 0, 6)
+			substr(hash('sha256', $content), 0, 6)
 		);
 
 		$bytes = file_put_contents($file, mb_convert_encoding($content, 'ISO-8859-2', 'UTF-8'));
