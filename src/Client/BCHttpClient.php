@@ -72,7 +72,7 @@ class BCHttpClient
 		$multipartForm = [
 			[
 				'name' => $file->getFileName(),
-				'content' => $file->getContent(),
+				'contents' => $file->getContent(),
 			]
 		];
 		// new v2 upload process
