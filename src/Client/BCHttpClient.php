@@ -71,8 +71,21 @@ class BCHttpClient
 		$boundary = strtoupper(substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6));
 		$multipartForm = [
 			[
+				'name' => '',
+				'contents' => "\n\n--" . $boundary . "\n",
+				'headers' => [
+					'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+					'Content-Length' => $file->getSize(),
+				],
+			],
+			[
 				'name' => $file->getFileName(),
 				'contents' => $file->getContent(),
+				'headers' => [
+					'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
+					'Content-Type' => 'application/octet-stream',
+					'Content-Length' => $file->getSize(),
+				]
 			]
 		];
 		// new v2 upload process
