@@ -80,7 +80,7 @@ class BCHttpClient
 			],
 			[
 				'name' => $file->getFileName(),
-				'contents' => $file->getContent(),
+				'contents' => $file->getContent() . "\n--" . $boundary . "--",
 				'headers' => [
 					'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
 					'Content-Type' => 'application/octet-stream',
