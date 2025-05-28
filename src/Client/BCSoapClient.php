@@ -137,7 +137,6 @@ class BCSoapClient
 			'ContractNumber' => $this->contractNo,
 			'ClientAppGuid'  => $this->clientAppGuid,
 			'FileList'       => ['ImportFileDetail' => []],
-			'SkipCheckDuplicates' => false,
 		];
 
 		if (count($files) === 0) {
@@ -162,6 +161,7 @@ class BCSoapClient
 			'Size'     => $f->getSize(),
 			'Format'   => $f->getFormat(),
 			'Mode'     => $f->getUploadMode(),
+			'SkipCheckDuplicates' => false,
 		];
 
 		if ($f->getSeparator() !== null) {
