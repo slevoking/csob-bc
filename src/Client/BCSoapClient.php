@@ -56,7 +56,7 @@ class BCSoapClient
 	{
 		try {
 			$opts = $this->prepareStartUploadOpts($files);
-			$resp = $this->client->StartUploadFileList_v2($opts);
+			$resp = $this->client->StartUploadFileList_v3($opts);
 
 			return StartUploadFileListResponse::fromResponse($resp, $files);
 		} catch (SoapFault $e) {
@@ -161,6 +161,7 @@ class BCSoapClient
 			'Size'     => $f->getSize(),
 			'Format'   => $f->getFormat(),
 			'Mode'     => $f->getUploadMode(),
+			'SkipCheckDuplicates' => true,
 		];
 
 		if ($f->getSeparator() !== null) {
