@@ -75,7 +75,7 @@ class BCHttpClient
 				'contents' => "\n\n--" . $boundary . "\n",
 				'headers' => [
 					'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
-					'Content-Length' => $file->getSize(),
+					'Content-Length' => (string) $file->getSize(),
 				],
 			],
 			[
@@ -84,7 +84,7 @@ class BCHttpClient
 				'headers' => [
 					'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
 					'Content-Type' => 'application/octet-stream',
-					'Content-Length' => $file->getSize(),
+					'Content-Length' => (string) $file->getSize(),
 				]
 			]
 		];
