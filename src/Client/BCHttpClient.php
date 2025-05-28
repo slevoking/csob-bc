@@ -59,15 +59,35 @@ class BCHttpClient
 			throw new RequestException(sprintf('File must contain valid upload url. "%s" given', $file->getDownloadUrl()));
 		}
 
-		$boundary = strtoupper(substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6));
+		// old v1 upload process
+		//$hdrs = [
+		//	'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
+		//	'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+		//	'Content-Length' => $file->getSize(),
+		//];
 
-		$hdrs = [
-			'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
-			'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
-			'Content-Length' => $file->getSize(),
+		//$resp = $this->send(new Request('POST', $file->getUploadUrl(), $hdrs, new MultipartStream([$file->getContent()], $boundary)));
+
+		$boundary = strtoupper(substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6));
+		$multipartForm = [
+			[
+				'name' => $file->getFileName(),
+				'content' => $file->getContent(),
+			]
+		];
+		// new v2 upload process
+		$options = $this->configureRequestOpts() + [
+			'headers' => [
+				'headers' => [
+					'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+					'Content-Length' => $file->getSize(),
+				]
+			],
+			'body' => new MultipartStream($multipartForm, $boundary),
 		];
 
-		$resp = $this->send(new Request('POST', $file->getUploadUrl(), $hdrs, new MultipartStream([$file->getContent()], $boundary)));
+		$resp = $this->request('POST', $file->getUploadUrl(), $options);
+
 		$data = $this->extractJsonContents($resp, [200, 201]);
 
 		if (!isset($data['newfileid'])) {
@@ -93,6 +113,21 @@ class BCHttpClient
 			'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2],
 			'cert' => [$this->options->getCertPath(), $this->options->getCertPassphrase()],
 		];
+	}
+
+	public function request(string $method, string $url, array $options = []): ResponseInterface
+	{
+		try {
+			$resp = $this->http->request($method, $url, $options);
+		} catch (Throwable $e) {
+			if ($e instanceof GuzzleException) {
+				throw new RequestException($e->getMessage(), $e->getCode(), $e);
+			} else {
+				throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+			}
+		}
+
+		return $resp;
 	}
 
 	private function send(RequestInterface $req): ResponseInterface
