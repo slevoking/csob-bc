@@ -58,6 +58,8 @@ class BCSoapClient
 			$opts = $this->prepareStartUploadOpts($files);
 			$resp = $this->client->StartUploadFileList_v3($opts);
 
+			var_dump($resp);
+
 			return StartUploadFileListResponse::fromResponse($resp, $files);
 		} catch (SoapFault $e) {
 			$this->throwSoapError($e);
