@@ -137,6 +137,7 @@ class BCSoapClient
 			'ContractNumber' => $this->contractNo,
 			'ClientAppGuid'  => $this->clientAppGuid,
 			'FileList'       => ['ImportFileDetail' => []],
+			'SkipCheckDuplicates' => false,
 		];
 
 		if (count($files) === 0) {
