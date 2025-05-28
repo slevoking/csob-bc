@@ -11,6 +11,7 @@ use AsisTeam\CSOBBC\Exception\Runtime\ResponseException;
 use AsisTeam\CSOBBC\Exception\RuntimeException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
@@ -58,13 +59,15 @@ class BCHttpClient
 			throw new RequestException(sprintf('File must contain valid upload url. "%s" given', $file->getDownloadUrl()));
 		}
 
+		$boundary = strtoupper(substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6));
+
 		$hdrs = [
 			'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
-			'Content-Type' => 'multipart/form-data; boundary=' . substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 6),
+			'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
 			'Content-Length' => $file->getSize(),
 		];
 
-		$resp = $this->send(new Request('POST', $file->getUploadUrl(), $hdrs, $file->getContent()));
+		$resp = $this->send(new Request('POST', $file->getUploadUrl(), $hdrs, new MultipartStream([$file->getContent()], $boundary)));
 		$data = $this->extractJsonContents($resp, [200, 201]);
 
 		if (!isset($data['newfileid'])) {
