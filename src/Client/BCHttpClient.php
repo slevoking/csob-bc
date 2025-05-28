@@ -77,13 +77,7 @@ class BCHttpClient
 		];
 		// new v2 upload process
 		$options = $this->configureRequestOpts() + [
-			'headers' => [
-				'headers' => [
-					'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
-					'Content-Length' => $file->getSize(),
-				]
-			],
-			'body' => new MultipartStream($multipartForm, $boundary),
+			'multipart' => $multipartForm,
 		];
 
 		$resp = $this->request('POST', $file->getUploadUrl(), $options);
