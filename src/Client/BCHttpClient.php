@@ -123,7 +123,11 @@ class BCHttpClient
 		$data = array_change_key_case($data, CASE_LOWER);
 		$appStatus = $data['status'] ?? '0';
 
+
 		if (!in_array((int) $appStatus, $validStatuses, true)) {
+
+			var_dump($body);
+
 			throw new ResponseException(sprintf(
 				'Server replied with "%d" statusCode, "%d" applicationCode. Message: "%s"',
 				$resp->getStatusCode(),
