@@ -84,7 +84,7 @@ class BCHttpClient
 		$options = $this->configureRequestOpts() + [
 			'multipart' => $multipartForm,
 			'headers' => [
-				'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+				//'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
 				'Content-Length' => (string) $file->getSize(),
 			],
 		];
