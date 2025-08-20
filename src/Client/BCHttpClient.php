@@ -167,8 +167,6 @@ class BCHttpClient
 
 		if (!in_array((int) $appStatus, $validStatuses, true)) {
 
-			var_dump($body);
-
 			throw new ResponseException(sprintf(
 				'Server replied with "%d" statusCode, "%d" applicationCode. Message: "%s"',
 				$resp->getStatusCode(),

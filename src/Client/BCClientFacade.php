@@ -42,11 +42,9 @@ final class BCClientFacade
 		$files = $up->getFiles();
 		foreach ($files as $upFile) {
 			// upload single file and receive it's uploaded id
-			var_dump('uploading files');
 			$this->httpClient->upload($upFile);
 		}
 
-		var_dump('finishing files');
 		// confirm all files were uploaded and start processing them
 		return $this->soapClient->finishUpload($files);
 	}
