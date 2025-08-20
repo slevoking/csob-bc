@@ -72,7 +72,7 @@ class BCHttpClient
 		$multipartForm = [
 			[
 				'name' => $file->getFileName(),
-				'contents' => $file->getContent() . "\n--" . $boundary . "--",
+				'contents' => $file->getContent(),
 				'headers' => [
 					'Content-Disposition' => sprintf('attachment; filename="%s"', $file->getFileName()),
 					'Content-Type' => 'application/octet-stream',
